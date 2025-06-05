@@ -4,7 +4,6 @@ import {
   ExternalLink,
   Info,
   Activity,
-  Pencil,
   ChevronDown,
   Plus,
   Calculator,
@@ -246,12 +245,6 @@ export function DesktopCard({
     }
   };
 
-  const creditLevel =
-    (loggedInUser?.current_credits || 0) < 5
-      ? "low"
-      : (loggedInUser?.current_credits || 0) < 10
-      ? "medium"
-      : "high";
   const { data: pairsIcons } = useQuery({
     queryKey: ["binancePairs"],
     queryFn: () => {
@@ -389,10 +382,6 @@ export function DesktopCard({
 
       <div className="flex items-center gap-2">
         <span className="text-sm">1</span>
-        <Pencil
-          className="h-4 w-4"
-          onClick={() => toast.info("Available in SwingX pro")}
-        />
       </div>
     </div>
   );
@@ -413,10 +402,7 @@ export function DesktopCard({
         </div>
       </div>
 
-      <div
-        className="flex items-center gap-2 cursor-pointer"
-        onClick={() => toast.info("Available in SwingX pro")}
-      >
+      <div className="flex items-center gap-2 cursor-pointer">
         <Avatar className="w-8 h-8">
           <AvatarImage
             src={`data:image/svg+xml;base64,${btoa(
@@ -426,7 +412,6 @@ export function DesktopCard({
           <AvatarFallback>ETH</AvatarFallback>
         </Avatar>
         ETH
-        <Pencil className="h-4 w-4 text-muted-foreground cursor-pointer" />
       </div>
     </div>
   );
@@ -581,42 +566,6 @@ export function DesktopCard({
                   </div>
                 </div>
 
-                <div className="flex items-center p-3 rounded-lg bg-secondary/50 border border-zinc-800/50">
-                  <div className="w-full">
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      Run Now Credits
-                      <HybridTooltip>
-                        <HybridTooltipTrigger>
-                          <Info className="h-4 w-4 text-muted-foreground" />
-                        </HybridTooltipTrigger>
-                        <HybridTooltipContent>
-                          Each on-demand analysis run costs 1 credit.
-                        </HybridTooltipContent>
-                      </HybridTooltip>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge
-                        className={cn(
-                          "text-xs font-bold rounded-md",
-                          creditLevel === "low"
-                            ? "bg-red-500/20 text-red-400"
-                            : creditLevel === "medium"
-                            ? "bg-orange-500/20 text-orange-400"
-                            : "bg-blue-500/20 text-blue-400"
-                        )}
-                      >
-                        {dexUserBasicInfo?.[0]?.current_credits?.toLocaleString() ||
-                          "0"}
-                      </Badge>
-                      {creditLevel === "low" && (
-                        <span className="text-[10px] text-red-400 animate-pulse">
-                          Low
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
                 {tokenPairs[0]?.asset_autotrading_active && (
                   <div className="flex items-center p-3 rounded-lg bg-secondary/50 border border-zinc-800/50">
                     <div>
@@ -671,10 +620,7 @@ export function DesktopCard({
                         "text-xl font-semibold flex items-center gap-1"
                       )}
                     >
-                      <div
-                        className="flex items-center gap-1  cursor-pointer"
-                        onClick={() => toast.info("Available in SwingX pro")}
-                      >
+                      <div className="flex items-center gap-1  cursor-pointer">
                         <Avatar className="w-8 h-8">
                           <AvatarImage
                             src={`data:image/svg+xml;base64,${btoa(
@@ -684,7 +630,6 @@ export function DesktopCard({
                           <AvatarFallback>ETH</AvatarFallback>
                         </Avatar>
                         ETH
-                        <Pencil className="h-4 w-4 text-muted-foreground" />
                       </div>
                     </div>
                   </div>
@@ -710,13 +655,8 @@ export function DesktopCard({
                         "text-xl font-semibold flex items-center gap-1"
                       )}
                     >
-                      <div
-                        className="flex items-center gap-1"
-                        onClick={() => toast.info("Available in SwingX pro")}
-                      >
+                      <div className="flex items-center gap-1">
                         <span>1</span>
-
-                        <Pencil className="h-4 w-4 text-muted-foreground cursor-pointer" />
                       </div>
                     </div>
                   </div>
@@ -872,9 +812,7 @@ export function DesktopCard({
                                 variant="ghost"
                                 size="icon"
                                 className="h-4 w-4"
-                              >
-                                <Pencil className="h-3 w-3" />
-                              </Button>
+                              ></Button>
                             </TableCell>
                             <TableCell
                               onClick={() =>
@@ -1033,9 +971,7 @@ export function DesktopCard({
                               variant="ghost"
                               size="icon"
                               className="h-4 w-4"
-                            >
-                              <Pencil className="h-3 w-3" />
-                            </Button>
+                            ></Button>
                           </TableCell>
                           <TableCell>
                             {order.reduce_only ? (

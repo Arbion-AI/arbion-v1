@@ -4,7 +4,6 @@ import {
   ExternalLink,
   Info,
   Activity,
-  Pencil,
   ChevronDown,
   Plus,
   Calculator,
@@ -19,7 +18,6 @@ import {
   getSwingXStandardBalances,
   getOpenOrders,
   getSwingXStandardUserBasicInfo,
-  runAnalysis,
   updateSwingXStandardAggressiveness,
 } from "@/lib/swingxApis/swingxStandard.api";
 import { Slider } from "@/components/ui/slider";
@@ -201,21 +199,6 @@ export function MobileCard({
     },
   });
 
-  const { mutate: runAnalysisMutation, isPending: runAnalysisLoading } =
-    useMutation({
-      mutationFn: async () => await runAnalysis(),
-      onSuccess: () => {
-        toast.success("Analysis run successfully");
-        queryClient.invalidateQueries({
-          queryKey: ["dexUserBasicInfoMobile", model_version],
-        });
-      },
-      onError: () => {
-        toast.error("Failed to run analysis");
-        console.log("error");
-      },
-    });
-
   const handleAggressivenessUpdate = (newValue: number) => {
     if (newValue > marginToUse * 100 && newValue > 15) {
       setShowWarning(true);
@@ -235,12 +218,6 @@ export function MobileCard({
     }
   };
 
-  const creditLevel =
-    (loggedInUser?.current_credits || 0) < 5
-      ? "low"
-      : (loggedInUser?.current_credits || 0) < 10
-      ? "medium"
-      : "high";
   const { data: pairsIcons } = useQuery({
     queryKey: ["binancePairs"],
     queryFn: () => {
@@ -319,9 +296,6 @@ export function MobileCard({
           <div className="flex flex-col items-center gap-1 mr-1">
             <span className="flex items-center gap-1">
               <span>5x</span>
-              <Button disabled variant="ghost" size="icon" className="h-4 w-4">
-                <Pencil className="h-3 w-3" />
-              </Button>
             </span>
           </div>
           <Button
@@ -388,14 +362,7 @@ export function MobileCard({
               {order.type?.toUpperCase()}:
             </span>
             ${order.price}
-            <Button disabled variant="ghost" size="icon" className="h-4 w-4">
-              <Pencil className="h-3 w-3" />
-            </Button>
           </div>
-
-          {/* <Button disabled size="icon" variant="ghost" className="border">
-            <DeleteIcon size={16} className="text-red-500" />
-          </Button> */}
         </div>
       </div>
     );
@@ -503,10 +470,6 @@ export function MobileCard({
 
       <div className="flex items-center gap-2 opacity-50">
         <span className="text-sm">1</span>
-        <Pencil
-          className="h-4 w-4"
-          onClick={() => toast.info("Available in SwingX pro")}
-        />
       </div>
     </div>
   );
@@ -542,7 +505,6 @@ export function MobileCard({
           <AvatarFallback>ETH</AvatarFallback>
         </Avatar>
         ETH
-        <Pencil className="h-4 w-4 text-muted-foreground cursor-pointer" />
       </div>
     </div>
   );
@@ -729,70 +691,6 @@ export function MobileCard({
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Credits counter */}
-            <div className="flex flex-col md:flex-row md:gap-0 gap-2 justify-between items-center py-3 px-4 mt-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50">
-              <div className="flex items-center gap-1">
-                <div className="flex items-center gap-1">
-                  <span className="text-sm whitespace-nowrap text-muted-foreground flex items-center gap-1">
-                    Run Now Credits
-                    <HybridTooltip>
-                      <HybridTooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </HybridTooltipTrigger>
-                      <HybridTooltipContent>
-                        Each on-demand analysis run costs 1 credit.
-                      </HybridTooltipContent>
-                    </HybridTooltip>
-                  </span>
-                  <Badge
-                    className={cn(
-                      "text-base font-bold rounded-md mx-1",
-                      creditLevel === "low"
-                        ? "bg-red-500/20 text-red-400 border-red-500/30"
-                        : creditLevel === "medium"
-                        ? "bg-orange-500/20 text-orange-400 border-orange-500/30"
-                        : "bg-blue-500/20 text-blue-400 border-blue-500/30",
-                      "shadow-sm transition-all hover:shadow-glow-sm",
-                      creditLevel === "low"
-                        ? "hover:shadow-red-500/20"
-                        : "hover:shadow-blue-500/20"
-                    )}
-                  >
-                    {dexUserBasicInfo?.[0]?.current_credits?.toLocaleString() ||
-                      "0"}
-                  </Badge>
-                  {creditLevel === "low" && (
-                    <span className="text-xs text-red-400 animate-pulse">
-                      Low
-                    </span>
-                  )}
-                </div>
-              </div>
-              {dexUserBasicInfo?.[0]?.trading_pairs[0]
-                ?.asset_autotrading_active && (
-                <Button
-                  size="sm"
-                  className="text-xs ml-1 md:w-fit w-full"
-                  onClick={() => {
-                    if (
-                      dexUserBasicInfo?.[0]?.current_credits &&
-                      dexUserBasicInfo?.[0]?.current_credits > 0
-                    ) {
-                      runAnalysisMutation();
-                    } else {
-                      toast.error("Not enough credits. Please Top Up credits.");
-                    }
-                  }}
-                  disabled={runAnalysisLoading}
-                >
-                  Run Now{" "}
-                  {runAnalysisLoading && (
-                    <Loader2 className="h-3 w-3 animate-spin ml-1" />
-                  )}
-                </Button>
-              )}
             </div>
 
             {/* Tab navigation */}
