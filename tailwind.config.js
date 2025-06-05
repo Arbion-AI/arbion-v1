@@ -6,21 +6,22 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "var(--primary)",
           dark: "var(--primary-dark)",
           light: "var(--primary-light)",
-          foreground: "hsl(var(--primary-foreground))",
         },
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "var(--background)",
+          light: "var(--background-light)",
+          dark: "var(--background-dark)",
+        },
         text: {
           DEFAULT: "var(--text)",
           secondary: "var(--text-secondary)",
         },
-        border: "hsl(var(--border))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+        border: "var(--border)",
+        card: "var(--card-bg)",
+
         foreground: "hsl(var(--foreground))",
         popover: {
           DEFAULT: "hsl(var(--popover))",

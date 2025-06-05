@@ -527,8 +527,8 @@ export function DesktopCard({
             <div className="flex flex-col gap-2 justify-center mt-4">
               <ConfigAgentDialog
                 isChangeConfig={false}
-                hasCexKeys={false}
-                cexNameToUpdate={"hyperliquid"}
+                hasKeys={false}
+                dexName={"hyperliquid"}
                 model_version={model_version}
               />
             </div>
@@ -1310,8 +1310,8 @@ export function DesktopCard({
 
                 <ConfigAgentDialog
                   isChangeConfig={true}
-                  hasCexKeys={true}
-                  cexNameToUpdate={"hyperliquid"}
+                  hasKeys={true}
+                  dexName={"hyperliquid"}
                   model_version={model_version}
                 />
                 <RevokeAgentDialog

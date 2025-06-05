@@ -4,6 +4,10 @@ import AgentCard from "../components/agents/AgentCard";
 import AgentForm from "../components/agents/AgentForm";
 import { useAgentContext } from "../contexts/AgentContext";
 
+import { ConfigAgentDialog } from "@/components/agents/swingXAgents/dialogs/configDialog";
+import { SwingXStandardCard } from "@/components/agents/swingXAgents/swingXStandard/swingxStandardCard";
+import { useAppSelector } from "@/store/hooks";
+
 const Agents: React.FC = () => {
   const { agents } = useAgentContext();
   const [showNewAgentForm, setShowNewAgentForm] = useState(false);
@@ -11,7 +15,7 @@ const Agents: React.FC = () => {
   const [showStatusFilter, setShowStatusFilter] = useState(false);
   const [showStrategyFilter, setShowStrategyFilter] = useState(false);
   const [selectedStrategy, setSelectedStrategy] = useState<string | null>(null);
-
+  const swingXAgent = useAppSelector((state) => state.agents.agent);
   const strategies = [
     "Cross-exchange arbitrage",
     "Momentum trading",
@@ -30,10 +34,17 @@ const Agents: React.FC = () => {
     <div className="space-y-6 animate-fadeIn">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">AI Agents</h1>
-
+        {(!swingXAgent || !swingXAgent.has_dex_keys) && (
+          <ConfigAgentDialog
+            isChangeConfig={false}
+            hasKeys={false}
+            dexName={"hyperliquid"}
+            model_version={"dex_v1"}
+          />
+        )}
         <button
           onClick={() => setShowNewAgentForm(true)}
-          className="btn btn-primary flex items-center"
+          className="btn btn-primary flex items-center whitespace-nowrap"
         >
           <Plus size={18} className="mr-2" />
           New Agent
@@ -178,6 +189,8 @@ const Agents: React.FC = () => {
           </div>
         )}
       </div>
+
+      {swingXAgent && swingXAgent.has_dex_keys && <SwingXStandardCard />}
 
       {/* New agent form dialog */}
       {showNewAgentForm && (

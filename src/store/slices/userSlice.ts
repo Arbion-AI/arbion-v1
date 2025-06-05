@@ -7,7 +7,7 @@ interface UserState {
     image_url: string;
     name: string;
     exp: number;
-    credentials: string[];
+    credentials: string;
     current_credits: number;
     origin: string;
   } | null;
@@ -15,12 +15,33 @@ interface UserState {
   error: string | null;
 }
 
-const initialState: UserState = {
+// Define the default initial state separately
+const defaultInitialState: UserState = {
   isAuthenticated: false,
   user: null,
   loading: false,
   error: null,
 };
+
+// Load user from storage with the default initial state
+const loadUserFromStorage = (): UserState => {
+  try {
+    const savedUser = localStorage.getItem("user");
+    if (!savedUser) return defaultInitialState;
+
+    const parsedUser = JSON.parse(savedUser);
+    return {
+      isAuthenticated: true,
+      user: parsedUser,
+      loading: false,
+      error: null,
+    };
+  } catch (error) {
+    return defaultInitialState;
+  }
+};
+
+const initialState: UserState = loadUserFromStorage();
 
 const userSlice = createSlice({
   name: "user",
@@ -29,6 +50,10 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserState["user"]>) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
+      // Persist to localStorage
+      if (action.payload) {
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -39,6 +64,8 @@ const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      // Clear from localStorage
+      localStorage.removeItem("user");
     },
   },
 });

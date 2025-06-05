@@ -7,6 +7,7 @@ export interface TradingPair {
 }
 
 export interface SwingXStandardBalance {
+  uid: string;
   has_dex_keys: boolean;
   trading_pairs: TradingPair[];
   cex_name: string;

@@ -7,8 +7,6 @@ import {
   SwingXStandardBalance,
 } from "../../types/swingx";
 
-const API_BASE_URL = SWINGX_STANDARD_URL;
-
 export const getCredentials = (): string => {
   try {
     const userJson = localStorage.getItem("user");
@@ -38,7 +36,7 @@ export const getSwingXStandardUserBasicInfo = async (
 ): Promise<SwingXStandardBalance[]> => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/get-user-basic-info`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/get-user-basic-info`,
       {
         credentials: getCredentials(),
         dex_name: cexName,
@@ -65,13 +63,16 @@ export const createSwingXStandardConnection = async (
   modelVersion: string = "dex_v1"
 ) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/v4/dex_v1/create`, {
-      credentials: getCredentials(),
-      dex_name: dexName,
-      api_key: apiKey,
-      wallet_address: walletAddress,
-      model_version: modelVersion,
-    });
+    const response = await axios.post(
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/create`,
+      {
+        credentials: getCredentials(),
+        dex_name: dexName,
+        api_key: apiKey,
+        wallet_address: walletAddress,
+        model_version: modelVersion,
+      }
+    );
     return response.data;
   } catch (error) {
     return handleError(error);
@@ -83,11 +84,14 @@ export const getSwingXStandardBalances = async (
   modelVersion: string = "dex_v1"
 ): Promise<SwingXBalances> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/v4/dex_v1/balances`, {
-      credentials: getCredentials(),
-      dex_name: dexName,
-      model_version: modelVersion,
-    });
+    const response = await axios.post(
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/balances`,
+      {
+        credentials: getCredentials(),
+        dex_name: dexName,
+        model_version: modelVersion,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -101,7 +105,7 @@ export const testSwingXStandardConnection = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/test-connection`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/test-connection`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -120,7 +124,7 @@ export const activateSwingXStandardAutoTrading = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/activate-autotrading`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/activate-autotrading`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -139,7 +143,7 @@ export const deactivateSwingXStandardAutoTrading = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/deactivate-autotrading`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/deactivate-autotrading`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -159,13 +163,16 @@ export const changeSwingXStandardKeys = async (
   walletAddress: string
 ) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/v4/dex_v1/change-keys`, {
-      credentials: getCredentials(),
-      dex_name: dexName,
-      api_key: apiKey,
-      model_version: modelVersion,
-      wallet_address: walletAddress,
-    });
+    const response = await axios.post(
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/change-keys`,
+      {
+        credentials: getCredentials(),
+        dex_name: dexName,
+        api_key: apiKey,
+        model_version: modelVersion,
+        wallet_address: walletAddress,
+      }
+    );
     return response.data;
   } catch (error) {
     return handleError(error);
@@ -177,11 +184,14 @@ export const revokeSwingXStandardBot = async (
   modelVersion: string = "dex_v1"
 ) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/v4/dex_v1/remove-keys`, {
-      credentials: getCredentials(),
-      dex_name: dexName,
-      model_version: modelVersion,
-    });
+    const response = await axios.post(
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/remove-keys`,
+      {
+        credentials: getCredentials(),
+        dex_name: dexName,
+        model_version: modelVersion,
+      }
+    );
     return response.data;
   } catch (error) {
     return handleError(error);
@@ -195,7 +205,7 @@ export const updateSwingXStandardAggressiveness = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/margin_to_use`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/margin_to_use`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -215,7 +225,7 @@ export const runAnalysis = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/fire-user-job`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/fire-user-job`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -234,7 +244,7 @@ export const updateSwingXStandardTpSl = async (
 ) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/update-tp-sl`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/update-tp-sl`,
       {
         credentials: getCredentials(),
         dex_name: dexName,
@@ -254,7 +264,7 @@ export const getOpenOrders = async (
 ): Promise<OpenOrders> => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/open-positions-orders`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/open-positions-orders`,
       {
         credentials: getCredentials(),
         model_version: model_version,
@@ -279,7 +289,7 @@ export const updateTpslOrders = async (
   console.log(asset, take_profit_or_stop_loss, trigger_price, size);
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/v4/dex_v1/update-tpsl-order`,
+      `${SWINGX_STANDARD_URL}/v4/dex_v1/update-tpsl-order`,
       {
         credentials: getCredentials(),
         dex_name: dexName,

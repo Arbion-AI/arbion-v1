@@ -642,8 +642,8 @@ export function MobileCard({
           <div className="flex flex-col gap-2 justify-center mt-4">
             <ConfigAgentDialog
               isChangeConfig={false}
-              hasCexKeys={false}
-              cexNameToUpdate={"hyperliquid"}
+              hasKeys={false}
+              dexName={"hyperliquid"}
               model_version={model_version}
             />
           </div>
@@ -1066,8 +1066,8 @@ export function MobileCard({
                 <div className="flex gap-2">
                   <ConfigAgentDialog
                     isChangeConfig={true}
-                    hasCexKeys={true}
-                    cexNameToUpdate={"hyperliquid"}
+                    hasKeys={true}
+                    dexName={"hyperliquid"}
                     model_version={model_version}
                   />
                   <RevokeAgentDialog
@@ -1185,5 +1185,3 @@ export function MobileCard({
     </Card>
   );
 }
-
-// 0xdb58860aa15bd48f932fee67b44579b05878c9e0f91af03abe520bc9e716b2fb

@@ -9,30 +9,32 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { KeySquare, Settings } from "lucide-react";
+import { KeySquare, Plus, Settings } from "lucide-react";
 
 import { ConfigHyperLiquidForm } from "../forms/configHyperLiquidForm";
 import {
   changeSwingXStandardKeys,
   createSwingXStandardConnection,
 } from "@/lib/swingxApis/swingxStandard.api";
+import { useAppSelector } from "@/store/hooks";
+import { GoogleAuthButton } from "../googleAuthButton";
 
 export function ConfigAgentDialog({
   isChangeConfig,
-  hasCexKeys,
-  cexNameToUpdate,
+  hasKeys,
+  dexName,
   model_version,
 }: {
   isChangeConfig?: boolean;
-  hasCexKeys?: boolean;
-  cexNameToUpdate: string;
+  hasKeys?: boolean;
+  dexName: string;
   model_version?: string;
 }) {
   const [isValidForm, setIsValidForm] = useState(false);
   const [canTestConnection, setCanTestConnection] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [cexName, setCexName] = useState(cexNameToUpdate || "");
+  const [cexName, setCexName] = useState(dexName || "");
 
   const form = useForm<z.infer<typeof apiKeySchema>>({
     resolver: zodResolver(apiKeySchema),
@@ -115,6 +117,8 @@ export function ConfigAgentDialog({
     },
   });
 
+  const user = useAppSelector((state) => state.user.user);
+
   return (
     <ResponsiveDialog
       trigger={
@@ -122,15 +126,13 @@ export function ConfigAgentDialog({
           {!isChangeConfig ? (
             <div className="flex flex-col gap-2">
               <Button
-                className="w-full  flex items-center justify-center rounded-full shine hover:bg-blue-700 font-bold "
+                className="btn btn-primary flex items-center"
                 onClick={() => {
-                  setCexName(cexNameToUpdate);
+                  setCexName(dexName);
                 }}
               >
-                Get Started with{" "}
-                <span className="underline ml-1">
-                  {cexName === "hyperliquid" ? "SwingX Standard" : "SwingX Pro"}
-                </span>
+                <Plus className="mr-2" />
+                New Hyperliquid Agent
               </Button>
             </div>
           ) : (
@@ -138,7 +140,7 @@ export function ConfigAgentDialog({
               variant={"outline"}
               className="w-full flex items-center justify-center gap-1 "
             >
-              {hasCexKeys ? "Update keys" : `Configure ${cexName} API`}
+              {hasKeys ? "Update keys" : `Configure ${cexName} API`}
               <Settings className="w-4 h-4 hover:rotate-180 transition-all duration-1000 ease-in-out" />
             </Button>
           )}
@@ -151,23 +153,30 @@ export function ConfigAgentDialog({
       } API`}
       handleClose={handleClose}
       content={
-        <div>
-          {<ConfigHyperLiquidForm form={form} />}
-          <Button
-            onClick={async () => {
-              if (isChangeConfig) {
-                await updateKeys.mutateAsync();
-              } else {
-                await saveKeys.mutateAsync();
-              }
-              setOpen(false);
-            }}
-            disabled={!isValidForm && !canTestConnection}
-            className="w-full"
-          >
-            SAVE <KeySquare className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
+        user ? (
+          <div>
+            {<ConfigHyperLiquidForm form={form} />}
+            <Button
+              onClick={async () => {
+                if (isChangeConfig) {
+                  await updateKeys.mutateAsync();
+                } else {
+                  await saveKeys.mutateAsync();
+                }
+                setOpen(false);
+              }}
+              disabled={!isValidForm && !canTestConnection}
+              className="w-full"
+            >
+              SAVE <KeySquare className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-2">
+            Connect your Google account to start trading with SwingX
+            <GoogleAuthButton />
+          </div>
+        )
       }
     />
   );

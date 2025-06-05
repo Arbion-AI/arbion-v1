@@ -23,6 +23,8 @@ import { AgentProvider } from "./contexts/AgentContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
 import { WalletProvider } from "./contexts/WalletContext";
 import { TokenProvider } from "./contexts/TokenContext";
+import GetSwingXAgents from "./components/renderless/getSwingXAgents";
+import { Toaster } from "sonner";
 
 function App() {
   const navItems = [
@@ -54,6 +56,8 @@ function App() {
                   <Route path="/settings" element={<Settings />} />
                 </Routes>
               </Layout>
+              <GetSwingXAgents />
+              <Toaster duration={10000} position={"bottom-center"} />
             </AgentProvider>
           </WebSocketProvider>
         </TokenProvider>
