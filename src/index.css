@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --primary: #00EA82;
-  --primary-dark: #00C870;
-  --primary-light: #33FF9C;
+  --primary: #00ea82;
+  --primary-dark: #00c870;
+  --primary-light: #33ff9c;
   --background: #000000;
   --background-light: #111111;
-  --background-dark: #0A0A0A;
+  --background-dark: #0a0a0a;
   --card-bg: rgba(20, 20, 20, 0.7);
-  --text: #FFFFFF;
-  --text-secondary: #CCCCCC;
+  --text: #ffffff;
+  --text-secondary: #cccccc;
   --border: rgba(255, 255, 255, 0.1);
 }
 
 body {
   @apply bg-background text-text font-sans;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
@@ -79,12 +79,12 @@ body {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(0, 234, 130, 0.7);
   }
-  
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 10px rgba(0, 234, 130, 0);
   }
-  
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(0, 234, 130, 0);
@@ -97,7 +97,7 @@ body {
 
 .console-log {
   @apply font-mono text-xs leading-relaxed;
-  color: #33FF9C;
+  color: #33ff9c;
 }
 
 /* Scrollbar styling */
@@ -109,7 +109,7 @@ body {
 ::-webkit-scrollbar-track {
   background: var(--background-light);
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background: var(--primary-dark);
   border-radius: 3px;
